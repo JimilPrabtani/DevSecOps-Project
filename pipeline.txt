@@ -1,0 +1,105 @@
+pipeline {
+    agent any
+    tools {
+        jdk 'jdk17'
+        nodejs 'node20'
+    }
+    options {
+        timestamps()
+    }
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'
+        IMAGE_NAME = 'buddy009/netflix'
+    }
+    stages {
+        stage('clean workspace') {
+            steps { cleanWs() }
+        }
+
+        stage('Checkout from Git') {
+            steps {
+                git branch: 'main', url: 'https://github.com/N4si/DevSecOps-Project.git'
+            }
+        }
+
+        stage('Sonarqube Analysis') {
+            steps {
+                withSonarQubeEnv(credentialsId: 'sonar-token', installationName: 'sonar-server') {
+                    sh '''
+                      $SCANNER_HOME/bin/sonar-scanner \
+                      -Dsonar.projectName=Netflix \
+                      -Dsonar.projectKey=Netflix
+                    '''
+                }
+            }
+        }
+
+        stage('quality gate') {
+            steps {
+                timeout(time: 15, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm ci'
+                sh 'npm -v'
+                sh 'node -v'
+            }
+        }
+
+        stage('TRIVY FS SCAN') {
+            steps {
+                sh 'trivy fs --scanners vuln,secret . | tee trivyfs.txt'
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                withCredentials([
+                    usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS'),
+                    string(credentialsId: 'tmdb-v3-api-key', variable: 'TMDB_V3_API_KEY')
+                ]) {
+                    sh '''
+                      echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                      docker build --build-arg TMDB_V3_API_KEY=$TMDB_V3_API_KEY -t netflix .
+                      docker tag netflix ${IMAGE_NAME}:latest
+                      docker push ${IMAGE_NAME}:latest
+                    '''
+                }
+            }
+        }
+
+        stage('TRIVY') {
+            steps {
+                sh 'trivy image ${IMAGE_NAME}:latest | tee trivyimage.txt'
+            }
+        }
+
+        stage('Deploy to container') {
+            steps {
+                sh '''
+                  docker rm -f netflix || true
+                  docker run -d --name netflix -p 8081:80 ${IMAGE_NAME}:latest
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'trivyfs.txt,trivyimage.txt', allowEmptyArchive: true
+        }
+    }
+}
+
+
+//
+If you get docker login failed errorr
+
+sudo su
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+//
