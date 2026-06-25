@@ -119,7 +119,7 @@ const MainHeader = () => {
           <img
             src="/avatar.png"
             alt="user_avatar"
-            style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 4 }}
+            style={{ width: "auto", height: "auto", objectFit: "fill" }}
           />
         </button>
         {anchorElUser && (
