@@ -1,14 +1,7 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import useOffSetTop from "src/hooks/useOffSetTop";
 import { APP_BAR_HEIGHT } from "src/constant";
 import Logo from "../Logo";
@@ -63,124 +56,107 @@ const MainHeader = () => {
   };
 
   return (
-    <AppBar
-      sx={{
-        // px: "4%",
-        px: "60px",
+    <header
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 10,
+        padding: "0 60px",
         height: APP_BAR_HEIGHT,
+        display: "flex",
+        alignItems: "center",
         backgroundImage: "none",
-        ...(isOffset
-          ? {
-              bgcolor: "primary.main",
-              boxShadow: (theme) => theme.shadows[4],
-            }
-          : { boxShadow: 0, bgcolor: "transparent" }),
+        backgroundColor: isOffset ? "rgba(20,20,20,0.9)" : "transparent",
+        boxShadow: isOffset ? "0 2px 8px rgba(0,0,0,0.6)" : "none",
       }}
     >
-      <Toolbar disableGutters>
-        <Logo sx={{ mr: { xs: 2, sm: 4 } }} />
+      <Logo />
 
-        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleOpenNavMenu}
-            color="inherit"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorElNav}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            sx={{
-              display: { xs: "block", md: "none" },
-            }}
-          >
-            {pages.map((page) => (
-              <MenuItem key={page} onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">{page}</Typography>
-              </MenuItem>
-            ))}
-          </Menu>
-        </Box>
-        <Typography
-          variant="h5"
-          noWrap
-          component="a"
-          href=""
-          sx={{
-            mr: 2,
-            display: { xs: "flex", md: "none" },
-            flexGrow: 1,
-            fontWeight: 700,
-            color: "inherit",
-            textDecoration: "none",
+      <nav style={{ flexGrow: 1, marginLeft: 24 }}>
+        <ul
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 24,
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
           }}
         >
-          Netflix
-        </Typography>
-        <Stack
-          direction="row"
-          spacing={3}
-          sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
-        >
           {pages.map((page) => (
-            <NetflixNavigationLink
-              to=""
-              variant="subtitle1"
-              key={page}
-              onClick={handleCloseNavMenu}
-            >
-              {page}
-            </NetflixNavigationLink>
+            <li key={page}>
+              <NetflixNavigationLink
+                to=""
+                onClick={handleCloseNavMenu}
+              >
+                {page}
+              </NetflixNavigationLink>
+            </li>
           ))}
-        </Stack>
+        </ul>
+      </nav>
 
-        <Box sx={{ flexGrow: 0, display: "flex", gap: 2 }}>
-          <SearchBox />
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="user_avatar" src="/avatar.png" variant="rounded" />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            sx={{ mt: "45px" }}
-            id="avatar-menu"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <SearchBox />
+        <button
+          type="button"
+          onClick={handleOpenUserMenu}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 36,
+            height: 36,
+            border: 0,
+            borderRadius: 4,
+            background: "transparent",
+            color: "white",
+            cursor: "pointer",
+            padding: 0,
+          }}
+          aria-label="Open settings"
+        >
+          <img
+            src="/avatar.png"
+            alt="user_avatar"
+            style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 4 }}
+          />
+        </button>
+        {anchorElUser && (
+          <div
+            style={{
+              position: "absolute",
+              top: APP_BAR_HEIGHT,
+              right: 60,
+              background: "#181818",
+              padding: 8,
+              borderRadius: 4,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.6)",
             }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
           >
             {["Account", "Logout"].map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
+              <button
+                key={setting}
+                type="button"
+                onClick={handleCloseUserMenu}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  padding: "8px 16px",
+                  background: "transparent",
+                  color: "white",
+                  border: 0,
+                  textAlign: "left",
+                  cursor: "pointer",
+                }}
+              >
+                {setting}
+              </button>
             ))}
-          </Menu>
-        </Box>
-      </Toolbar>
-    </AppBar>
+          </div>
+        )}
+      </div>
+    </header>
   );
 };
 export default MainHeader;

@@ -1,36 +1,47 @@
-import Button, { ButtonProps } from "@mui/material/Button";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-export default function MoreInfoButton({ sx, ...others }: ButtonProps) {
+function InfoOutlinedIcon() {
   return (
-    <Button
-      variant="contained"
-      startIcon={
-        <InfoOutlinedIcon
-          sx={{
-            fontSize: {
-              xs: "24px !important",
-              sm: "32px !important",
-              md: "40px !important",
-            },
-          }}
-        />
-      }
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width="28"
+      height="28"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 10v6" />
+      <path d="M12 7h.01" />
+    </svg>
+  );
+}
+
+export default function MoreInfoButton({ sx, size, ...others }: { [key: string]: any }) {
+  return (
+    <button
+      type="button"
       {...others}
-      sx={{
-        ...sx,
-        px: { xs: 1, sm: 2 },
-        py: { xs: 0.5, sm: 1 },
-        fontSize: { xs: 18, sm: 24, md: 28 },
-        lineHeight: 1.5,
-        fontWeight: "bold",
-        textTransform: "capitalize",
-        bgcolor: "#6d6d6eb3",
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        padding: "8px 16px",
+        border: 0,
+        borderRadius: 4,
+        background: "#6d6d6eb3",
+        color: "#fff",
+        fontWeight: 700,
         whiteSpace: "nowrap",
-        "&:hover": { bgcolor: "#6d6d6e66" },
+        cursor: "pointer",
+        ...(sx ?? {}),
       }}
     >
+      <InfoOutlinedIcon />
       More Info
-    </Button>
+    </button>
   );
 }

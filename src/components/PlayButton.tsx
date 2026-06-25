@@ -1,39 +1,45 @@
-import Button, { ButtonProps } from "@mui/material/Button";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useNavigate } from "react-router-dom";
 import { MAIN_PATH } from "src/constant";
 
-export default function PlayButton({ sx, ...others }: ButtonProps) {
+function PlayArrowIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width="28"
+      height="28"
+      fill="currentColor"
+    >
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  );
+}
+
+export default function PlayButton({ sx, size, ...others }: { [key: string]: any }) {
   const navigate = useNavigate();
   return (
-    <Button
-      color="inherit"
-      variant="contained"
-      startIcon={
-        <PlayArrowIcon
-          sx={{
-            fontSize: {
-              xs: "24px !important",
-              sm: "32px !important",
-              md: "40px !important",
-            },
-          }}
-        />
-      }
+    <button
+      type="button"
       {...others}
-      sx={{
-        px: { xs: 1, sm: 2 },
-        py: { xs: 0.5, sm: 1 },
-        fontSize: { xs: 18, sm: 24, md: 28 },
-        lineHeight: 1.5,
-        fontWeight: "bold",
-        whiteSpace: "nowrap",
-        textTransform: "capitalize",
-        ...sx,
-      }}
       onClick={() => navigate(`/${MAIN_PATH.watch}`)}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        padding: "8px 16px",
+        border: 0,
+        borderRadius: 4,
+        background: "#fff",
+        color: "#000",
+        fontWeight: 700,
+        whiteSpace: "nowrap",
+        cursor: "pointer",
+        ...(sx ?? {}),
+      }}
     >
+      <PlayArrowIcon />
       Play
-    </Button>
+    </button>
   );
 }

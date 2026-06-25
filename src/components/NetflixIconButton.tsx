@@ -1,27 +1,29 @@
 import { forwardRef } from "react";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 
-const NetflixIconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ children, sx, ...others }, ref) => {
-    return (
-      <IconButton
-        sx={{
-          color: "white",
-          borderWidth: "2px",
-          borderStyle: "solid",
-          borderColor: "grey.700",
-          "&:hover, &:focus": {
-            borderColor: "grey.200",
-          },
-          ...sx,
-        }}
-        {...others}
-        ref={ref}
-      >
-        {children}
-      </IconButton>
-    );
-  }
-);
+const NetflixIconButton = forwardRef<
+  HTMLButtonElement,
+  { [key: string]: any }
+>(({ children, sx, size, ...others }, ref) => {
+  return (
+    <button
+      ref={ref}
+      type="button"
+      {...others}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        border: "2px solid #454f5b",
+        borderRadius: 4,
+        background: "transparent",
+        color: "white",
+        cursor: "pointer",
+        ...(sx ?? {}),
+      }}
+    >
+      {children}
+    </button>
+  );
+});
 
 export default NetflixIconButton;

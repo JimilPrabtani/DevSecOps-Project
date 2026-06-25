@@ -2,9 +2,7 @@ import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import AddIcon from "@mui/icons-material/Add";
 import { Movie } from "src/types/Movie";
-import NetflixIconButton from "./NetflixIconButton";
 import MaxLineTypography from "./MaxLineTypography";
 import { formatMinuteToReadable, getRandomNumber } from "src/utils/common";
 import AgeLimitChip from "./AgeLimitChip";
@@ -81,9 +79,35 @@ export default function SimilarVideoCard({ video }: SimilarVideoCardProps) {
               </Stack>
             </div>
             <div style={{ flexGrow: 1 }} />
-            <NetflixIconButton>
-              <AddIcon />
-            </NetflixIconButton>
+            <button
+              type="button"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 36,
+                height: 36,
+                border: "2px solid #454f5b",
+                borderRadius: 4,
+                background: "transparent",
+                color: "white",
+                cursor: "pointer",
+                padding: 0,
+              }}
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </button>
           </Stack>
           <MaxLineTypography maxLine={4} variant="subtitle2">
             {video.overview}

@@ -2,13 +2,7 @@ import { useState, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Player from "video.js/dist/types/player";
 import { Box, Stack, Typography } from "@mui/material";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import PauseIcon from "@mui/icons-material/Pause";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import SettingsIcon from "@mui/icons-material/Settings";
-import BrandingWatermarkOutlinedIcon from "@mui/icons-material/BrandingWatermarkOutlined";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+
 
 import useWindowSize from "src/hooks/useWindowSize";
 import { formatTime } from "src/utils/common";
@@ -123,7 +117,9 @@ export function Component() {
           >
             <Box px={2} sx={{ position: "absolute", top: 75 }}>
               <PlayerControlButton onClick={handleGoBack}>
-                <KeyboardBackspaceIcon />
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                  <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </PlayerControlButton>
             </Box>
             <Box
@@ -195,7 +191,10 @@ export function Component() {
                         playerRef.current?.pause();
                       }}
                     >
-                      <PauseIcon />
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                        <rect x="6" y="5" width="4" height="14" fill="currentColor" />
+                        <rect x="14" y="5" width="4" height="14" fill="currentColor" />
+                      </svg>
                     </PlayerControlButton>
                   ) : (
                     <PlayerControlButton
@@ -203,11 +202,16 @@ export function Component() {
                         playerRef.current?.play();
                       }}
                     >
-                      <PlayArrowIcon />
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                        <path d="M8 5V19L19 12L8 5Z" fill="currentColor" />
+                      </svg>
                     </PlayerControlButton>
                   )}
                   <PlayerControlButton>
-                    <SkipNextIcon />
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                      <path d="M5 5V19L13 12L5 5Z" fill="currentColor" />
+                      <path d="M13 5V19L21 12L13 5Z" fill="currentColor" />
+                    </svg>
                   </PlayerControlButton>
                   <VolumeControllers
                     muted={playerState.muted}
@@ -248,13 +252,25 @@ export function Component() {
                   spacing={{ xs: 0.5, sm: 1.5, md: 2 }}
                 >
                   <PlayerControlButton>
-                    <SettingsIcon />
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+                      <path d="M19.4 15C19.2 15.3 19.2 15.7 19.4 16L20.1 17.2C20.3 17.5 20.2 17.9 19.9 18.1L18.1 19.9C17.9 20.2 17.5 20.3 17.2 20.1L16 19.4C15.7 19.2 15.3 19.2 15 19.4L14.8 19.5C14.5 19.7 14.3 20 14.3 20.4V21.7C14.3 22 14 22.3 13.7 22.3H11.3C11 22.3 10.7 22 10.7 21.7V20.4C10.7 20 10.5 19.7 10.2 19.5L10 19.4C9.7 19.2 9.3 19.2 9 19.4L7.8 20.1C7.5 20.3 7.1 20.2 6.9 19.9L5.1 18.1C4.8 17.9 4.7 17.5 4.9 17.2L5.6 16C5.8 15.7 5.8 15.3 5.6 15L5.5 14.8C5.3 14.5 5 14.3 4.6 14.3H3.3C3 14.3 2.7 14 2.7 13.7V11.3C2.7 11 3 10.7 3.3 10.7H4.6C5 10.7 5.3 10.5 5.5 10.2L5.6 10C5.8 9.7 5.8 9.3 5.6 9L4.9 7.8C4.7 7.5 4.8 7.1 5.1 6.9L6.9 5.1C7.1 4.8 7.5 4.7 7.8 4.9L9 5.6C9.3 5.8 9.7 5.8 10 5.6L10.2 5.5C10.5 5.3 10.7 5 10.7 4.6V3.3C10.7 3 11 2.7 11.3 2.7H13.7C14 2.7 14.3 3 14.3 3.3V4.6C14.3 5 14.5 5.3 14.8 5.5L15 5.6C15.3 5.8 15.7 5.8 16 5.6L17.2 4.9C17.5 4.7 17.9 4.8 18.1 5.1L19.9 6.9C20.2 7.1 20.3 7.5 20.1 7.8L19.4 9C19.2 9.3 19.2 9.7 19.4 10L19.5 10.2C19.7 10.5 20 10.7 20.4 10.7H21.7C22 10.7 22.3 11 22.3 11.3V13.7C22.3 14 22 14.3 21.7 14.3H20.4C20 14.3 19.7 14.5 19.5 14.8L19.4 15Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+                    </svg>
                   </PlayerControlButton>
                   <PlayerControlButton>
-                    <BrandingWatermarkOutlinedIcon />
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                      <path d="M4 6H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M4 12H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M4 18H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
                   </PlayerControlButton>
                   <PlayerControlButton>
-                    <FullscreenIcon />
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                      <path d="M4 9V4H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M20 9V4H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M4 15V20H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M20 15V20H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   </PlayerControlButton>
                 </Stack>
                 {/* end right controller */}

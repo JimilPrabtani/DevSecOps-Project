@@ -3,17 +3,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import CloseIcon from "@mui/icons-material/Close";
-import AddIcon from "@mui/icons-material/Add";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import Player from "video.js/dist/types/player";
 
 import MaxLineTypography from "./MaxLineTypography";
@@ -27,6 +21,79 @@ import { useDetailModal } from "src/providers/DetailModalProvider";
 import { useGetSimilarVideosQuery } from "src/store/slices/discover";
 import { MEDIA_TYPE } from "src/types/Common";
 import VideoJSPlayer from "./watch/VideoJSPlayer";
+
+function IconSvg({ children }: { children: React.ReactNode }) {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {children}
+    </svg>
+  );
+}
+
+function CloseSvg() {
+  return (
+    <IconSvg>
+      <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </IconSvg>
+  );
+}
+
+function PlusSvg() {
+  return (
+    <IconSvg>
+      <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </IconSvg>
+  );
+}
+
+function ThumbsUpSvg() {
+  return (
+    <IconSvg>
+      <path
+        d="M9.5 10.5V19H6.5C5.67 19 5 18.33 5 17.5V10.5C5 9.67 5.67 9 6.5 9H9.5V10.5Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9.5 10.5L11.5 5.5C11.9 4.5 13.1 4.1 14 4.7C14.6 5.1 14.9 5.8 14.8 6.5L14.2 9H18.5C19.33 9 20 9.67 20 10.5V12.2C20 12.47 19.95 12.74 19.85 12.99L18.25 17.24C18.02 17.83 17.45 18.22 16.82 18.22H9.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+    </IconSvg>
+  );
+}
+
+function VolumeUpSvg() {
+  return (
+    <IconSvg>
+      <path d="M5 10V14H8L12 18V6L8 10H5Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+      <path d="M15 9C16.1 10.1 16.1 13.9 15 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M17.5 6.5C19.9 8.9 19.9 15.1 17.5 17.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </IconSvg>
+  );
+}
+
+function VolumeOffSvg() {
+  return (
+    <IconSvg>
+      <path d="M5 10V14H8L12 18V6L8 10H5Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+      <path d="M16 9L20 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M20 9L16 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </IconSvg>
+  );
+}
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -134,26 +201,25 @@ export default function DetailModal() {
                   width: "100%",
                 }}
               />
-              <IconButton
+              <button
+                type="button"
                 onClick={() => {
                   setDetailType({ mediaType: undefined, id: undefined });
                 }}
-                sx={{
+                style={{
+                  border: 0,
                   top: 15,
                   right: 15,
                   position: "absolute",
-                  bgcolor: "#181818",
-                  width: { xs: 22, sm: 40 },
-                  height: { xs: 22, sm: 40 },
-                  "&:hover": {
-                    bgcolor: "primary.main",
-                  },
+                  backgroundColor: "#181818",
+                  width: 36,
+                  height: 36,
+                  cursor: "pointer",
+                  color: "white",
                 }}
               >
-                <CloseIcon
-                  sx={{ color: "white", fontSize: { xs: 14, sm: 22 } }}
-                />
-              </IconButton>
+                <CloseSvg />
+              </button>
               <Box
                 sx={{
                   position: "absolute",
@@ -169,10 +235,10 @@ export default function DetailModal() {
                 <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
                   <PlayButton sx={{ color: "black", py: 0 }} />
                   <NetflixIconButton>
-                    <AddIcon />
+                    <PlusSvg />
                   </NetflixIconButton>
                   <NetflixIconButton>
-                    <ThumbUpOffAltIcon />
+                    <ThumbsUpSvg />
                   </NetflixIconButton>
                   <Box flexGrow={1} />
                   <NetflixIconButton
@@ -180,7 +246,7 @@ export default function DetailModal() {
                     onClick={() => handleMute(muted)}
                     sx={{ zIndex: 2 }}
                   >
-                    {!muted ? <VolumeUpIcon /> : <VolumeOffIcon />}
+                    {!muted ? <VolumeUpSvg /> : <VolumeOffSvg />}
                   </NetflixIconButton>
                 </Stack>
 

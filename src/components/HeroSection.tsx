@@ -1,8 +1,6 @@
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import Player from "video.js/dist/types/player";
 
 import { getRandomNumber } from "src/utils/common";
@@ -20,6 +18,46 @@ import {
 } from "src/store/slices/discover";
 import { Movie } from "src/types/Movie";
 import VideoJSPlayer from "./watch/VideoJSPlayer";
+
+function VolumeUpIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M11 5 6 9H3v6h3l5 4z" />
+      <path d="M15 9a4 4 0 0 1 0 6" />
+      <path d="M17.5 6.5a7 7 0 0 1 0 11" />
+    </svg>
+  );
+}
+
+function VolumeOffIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M11 5 6 9H3v6h3l5 4z" />
+      <path d="m16 9 5 5" />
+      <path d="m21 9-5 5" />
+    </svg>
+  );
+}
 
 interface TopTrailerProps {
   mediaType: MEDIA_TYPE;

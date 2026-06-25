@@ -1,12 +1,7 @@
-import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-
 export default function Footer() {
   return (
-    <Box
-      sx={{
+    <footer
+      style={{
         position: "absolute",
         bottom: 0,
         left: 0,
@@ -15,25 +10,29 @@ export default function Footer() {
         flexDirection: "column",
         justifyContent: "center",
         height: 150,
-        bgcolor: "inherit",
-        px: "60px",
+        padding: "0 60px",
+        color: "rgba(255,255,255,0.7)",
       }}
     >
-      <Box>
-        <Divider>
-          <Typography color="grey.700" variant="h6">
-            Developed by{" "}
-            <Link
-              href="https://github.com/jimilprabtani"
-              underline="none"
-              sx={{ color: "text.primary" }}
-              target="_blank"
-            >
-              Jimil Prabtani
-            </Link>
-          </Typography>
-        </Divider>
-      </Box>
-    </Box>
+      <div
+        style={{
+          height: 1,
+          width: "100%",
+          background: "rgba(255,255,255,0.2)",
+          marginBottom: 16,
+        }}
+      />
+      <div style={{ fontSize: 18 }}>
+        Developed by{" "}
+        <a
+          href="https://github.com/jimilprabtani"
+          target="_blank"
+          rel="noreferrer"
+          style={{ color: "white", textDecoration: "none" }}
+        >
+          Jimil Prabtani
+        </a>
+      </div>
+    </footer>
   );
 }

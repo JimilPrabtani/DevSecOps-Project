@@ -1,5 +1,3 @@
-import CircularProgress from "@mui/material/CircularProgress";
-
 function MainLoadingScreen() {
   return (
     <div
@@ -17,7 +15,17 @@ function MainLoadingScreen() {
         zIndex: 2,
       }}
     >
-      <CircularProgress sx={{ color: "white" }} />
+      <span
+        style={{
+          width: 40,
+          height: 40,
+          border: "3px solid rgba(255,255,255,0.2)",
+          borderTopColor: "white",
+          borderRadius: "50%",
+          display: "inline-block",
+          animation: "spin 0.8s linear infinite",
+        }}
+      />
     </div>
   );
 }

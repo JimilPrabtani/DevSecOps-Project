@@ -2,20 +2,23 @@ import {
   Link as RouterLink,
   LinkProps as RouterLinkProps,
 } from "react-router-dom";
-import Link, { LinkProps } from "@mui/material/Link";
 
 export default function NetflixNavigationLink({
   sx,
   children,
+  style,
   ...others
-}: LinkProps & RouterLinkProps) {
+}: RouterLinkProps & { sx?: React.CSSProperties; style?: React.CSSProperties }) {
   return (
-    <Link
+    <RouterLink
       {...others}
-      component={RouterLink}
-      sx={{ color: "text.primary", textDecoration: "none", ...sx }}
+      style={{
+        color: "rgba(255,255,255,0.85)",
+        textDecoration: "none",
+        ...style,
+      }}
     >
       {children}
-    </Link>
+    </RouterLink>
   );
 }

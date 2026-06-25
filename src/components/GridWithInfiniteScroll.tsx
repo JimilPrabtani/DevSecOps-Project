@@ -1,8 +1,4 @@
 import { useRef, useEffect } from "react";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import VideoItemWithHover from "./VideoItemWithHover";
 import { CustomGenre, Genre } from "src/types/Genre";
 import { PaginatedMovieResult } from "src/types/Common";
@@ -33,37 +29,31 @@ export default function GridWithInfiniteScroll({
 
   return (
     <>
-      <Container
-        maxWidth={false}
-        sx={{
-          px: { xs: "30px", sm: "60px" },
-          pb: 4,
-          pt: "150px",
-          bgcolor: "inherit",
+      <div
+        style={{
+          padding: "150px 60px 32px",
+          background: "inherit",
+          color: "white",
         }}
       >
-        <Typography
-          variant="h5"
-          sx={{ color: "text.primary", mb: 2 }}
-        >{`${genre.name} Movies`}</Typography>
-        <Grid container spacing={2}>
+        <h2 style={{ margin: "0 0 16px", fontWeight: 700 }}>{`${genre.name} Movies`}</h2>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+            gap: 16,
+          }}
+        >
           {data.results
             .filter((v) => !!v.backdrop_path)
             .map((video, idx) => (
-              <Grid
-                key={`${video.id}_${idx}`}
-                item
-                xs={6}
-                sm={3}
-                md={2}
-                sx={{ zIndex: 1 }}
-              >
+              <div key={`${video.id}_${idx}`} style={{ zIndex: 1 }}>
                 <VideoItemWithHover video={video} />
-              </Grid>
+              </div>
             ))}
-        </Grid>
-      </Container>
-      <Box sx={{ display: "hidden" }} ref={intersectionRef} />
+        </div>
+      </div>
+      <div ref={intersectionRef} style={{ display: "none" }} />
     </>
   );
 }

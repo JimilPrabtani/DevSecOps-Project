@@ -25,11 +25,22 @@ export default function VideoJSPlayer({
         videoRef.current?.appendChild(videoElement);
         const player = (playerRef.current = videojs(
           videoElement,
-          options,
+          {
+            ...options,
+            errorDisplay: true,
+          },
           () => {
             onReady && onReady(player);
           }
         ));
+
+        player.on("error", () => {
+          const mediaError = player.error();
+          if (mediaError && mediaError.code === 4) {
+            player.error(undefined);
+            player.pause();
+          }
+        });
 
         // import("video.js").then(async ({ default: videojs }) => {
         //   await import("video.js/dist/video-js.css");
