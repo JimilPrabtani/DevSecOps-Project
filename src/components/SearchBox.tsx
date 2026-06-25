@@ -1,70 +1,92 @@
-import { useState, useRef } from "react";
-import { styled } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
+import { useRef, useState } from "react";
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  width: "100%",
-  display: "flex",
-  alignItems: "center",
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  cursor: "pointer",
-  padding: theme.spacing(0, 1),
-  height: "100%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .NetflixInputBase-input": {
-    width: 0,
-    transition: theme.transitions.create("width", {
-      duration: theme.transitions.duration.complex,
-      easing: theme.transitions.easing.easeIn,
-    }),
-    "&:focus": {
-      width: "auto",
-    },
-  },
-}));
+function SearchIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" />
+    </svg>
+  );
+}
 
 export default function SearchBox() {
   const [isFocused, setIsFocused] = useState(false);
-  const searchInputRef = useRef<HTMLInputElement>();
+  const searchInputRef = useRef<HTMLDivElement>(null);
 
   const handleClickSearchIcon = () => {
     if (!isFocused) {
-      searchInputRef.current?.focus();
+      const input = searchInputRef.current?.querySelector("input");
+      if (input) {
+        input.focus();
+      }
     }
   };
 
   return (
-    <Search
-      sx={
-        isFocused ? { border: "1px solid white", backgroundColor: "black" } : {}
-      }
+    <div
+      ref={searchInputRef}
+      style={{
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
+        border: isFocused ? "1px solid white" : "1px solid transparent",
+        backgroundColor: isFocused ? "black" : "transparent",
+        borderRadius: 4,
+        overflow: "hidden",
+      }}
     >
-      <SearchIconWrapper onClick={handleClickSearchIcon}>
+      <button
+        type="button"
+        onClick={handleClickSearchIcon}
+        aria-label="focus search"
+        style={{
+          cursor: "pointer",
+          border: 0,
+          background: "transparent",
+          color: "inherit",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "0 8px",
+          height: "100%",
+        }}
+      >
         <SearchIcon />
-      </SearchIconWrapper>
-      <StyledInputBase
-        inputRef={searchInputRef}
+      </button>
+      <input
+        type="search"
         placeholder="Titles, people, genres"
-        inputProps={{
-          "aria-label": "search",
-          onFocus: () => {
-            setIsFocused(true);
-          },
-          onBlur: () => {
-            setIsFocused(false);
-          },
+        aria-label="search"
+        onFocus={() => {
+          setIsFocused(true);
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+        }}
+        style={{
+          flex: 1,
+          minWidth: 0,
+          border: 0,
+          outline: 0,
+          background: "transparent",
+          color: "inherit",
+          font: "inherit",
+          width: isFocused ? 240 : 0,
+          padding: isFocused ? "8px 12px 8px 0" : 0,
+          transition: "width 200ms ease, padding 200ms ease",
         }}
       />
-    </Search>
+    </div>
   );
 }
