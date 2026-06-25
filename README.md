@@ -1,6 +1,4 @@
 <div align="center">
-  <img src="./public/assets/DevSecOps.png" alt="Logo" width="100%" height="100%">
-
   <br>
   <a href="http://netflix-clone-with-tmdb-using-react-mui.vercel.app/">
     <img src="./public/assets/netflix-logo.png" alt="Logo" width="100" height="32">
@@ -21,8 +19,16 @@
 
 **Step 1: Launch EC2 (Ubuntu 22.04 LTS):**
 
-- Provision an EC2 instance on AWS with Ubuntu 22.04 LTS.
+- Provision an EC2 instance on AWS with Ubuntu 26.04 LTS.
 - Connect to the instance using SSH.
+
+> **🔒 Security Best Practices for EC2 Instance:**
+>
+> - **Configure Security Groups Mindfully:** Restrict inbound traffic to only the ports required for the application (e.g., port 8081 for the Netflix clone, port 9000 for SonarQube, port 8080 for Jenkins). Avoid opening all ports (`0.0.0.0/0`) unless absolutely necessary.
+> - **Allow Only Trusted IPs for Internal Ports:** Limit SSH access (port 22) and internal service ports to your own IP address or a trusted set of IPs (e.g., your office/home VPN). Use your public IP (`<your-ip>/32`) in the inbound rules instead of open ranges.
+> - **Disable Password Authentication:** Use SSH key pairs for authentication instead of passwords to prevent brute-force attacks.
+> - **Keep the OS and Packages Updated:** Regularly run `sudo apt update && sudo apt upgrade` to patch known vulnerabilities.
+> - **Enable AWS CloudTrail and VPC Flow Logs:** Monitor API calls and network traffic for suspicious activity.
 
 **Step 2: Clone the Code:**
 
@@ -82,12 +88,16 @@ docker build --build-arg TMDB_V3_API_KEY=<your-api-key> -t netflix .
         sonarqube
         ```
         docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
-        ```
-        
-        
+        ```    
         To access: 
         
         publicIP:9000 (by default username & password is admin)
+
+    <div align="center">
+    <img src="./public/assets/SonarQube.png" alt="SonarQube" width="100%" height="100%">
+    </div>
+
+
         
         To install Trivy:
         ```
@@ -111,6 +121,10 @@ docker build --build-arg TMDB_V3_API_KEY=<your-api-key> -t netflix .
 **Phase 3: CI/CD Setup**
 
 1. **Install Jenkins for Automation:**
+   
+    <div align="center">
+    <img src="./public/assets/jenkins-pic.png" alt="Jenkins" width="100%" height="100%">
+    </div>
     - Install Jenkins on the EC2 instance to automate deployment:
     Install Java
     
@@ -402,6 +416,10 @@ sudo systemctl restart jenkins
    sudo mv prometheus.yml /etc/prometheus/prometheus.yml
    ```
 
+    <div align="center">
+    <img src="./public/assets/prometheus.png" alt="Prometheus" width="100%" height="100%">
+    </div>
+
    Set ownership for directories:
 
    ```bash
@@ -596,6 +614,11 @@ wget https://dl.grafana.com/grafana-enterprise/release/13.1.0/grafana-enterprise
 sudo dpkg -i grafana-enterprise_13.1.0_28013217238_linux_amd64.deb
 ```
 
+<div align="center">
+<img src="./public/assets/grafana.png" alt="Grafana" width="100%" height="100%">
+</div>
+
+
 **Step 3: Enable and Start Grafana Service:**
 
 To automatically start Grafana after a reboot, enable the service:
@@ -679,8 +702,8 @@ That's it! You've successfully installed and set up Grafana to work with Prometh
 1. **Implement Notification Services:**
     - Set up email notifications in Jenkins or other notification mechanisms.
 
-# Phase 6: Kubernetes
-
+# Phase 6: Kubernetes (Optional)
+## This part will cost you money so if you want to skip this part you can skip it.
 ## Create Kubernetes Cluster with Nodegroups
 
 In this phase, you'll set up a Kubernetes cluster with node groups. This will provide a scalable environment to deploy and manage your applications.
