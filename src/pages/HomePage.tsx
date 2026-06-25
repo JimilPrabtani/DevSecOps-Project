@@ -1,10 +1,14 @@
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import { COMMON_TITLES } from "src/constant";
 import HeroSection from "src/components/HeroSection";
 import { genreSliceEndpoints, useGetGenresQuery } from "src/store/slices/genre";
 import { MEDIA_TYPE } from "src/types/Common";
 import { CustomGenre, Genre } from "src/types/Genre";
 import SliderRowForGenre from "src/components/VideoSlider";
+import MainLoadingScreen from "src/components/MainLoadingScreen";
 import store from "src/store";
 
 export async function loader() {
@@ -14,7 +18,44 @@ export async function loader() {
   return null;
 }
 export function Component() {
-  const { data: genres, isSuccess } = useGetGenresQuery(MEDIA_TYPE.Movie);
+  const {
+    data: genres,
+    isSuccess,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetGenresQuery(MEDIA_TYPE.Movie);
+
+  if (isLoading) {
+    return <MainLoadingScreen />;
+  }
+
+  if (isError) {
+    return (
+      <Box
+        sx={{
+          minHeight: "60vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          px: 2,
+        }}
+      >
+        <Stack spacing={2} alignItems="center" maxWidth={640} textAlign="center">
+          <Typography variant="h4" color="text.primary" fontWeight={700}>
+            TMDB content could not be loaded
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Check the TMDB API key in Jenkins credentials or local .env, then rerun the pipeline.
+            If the key is invalid, the app cannot load titles and the page will stay empty.
+          </Typography>
+          <Button variant="contained" onClick={() => refetch()}>
+            Retry
+          </Button>
+        </Stack>
+      </Box>
+    );
+  }
 
   if (isSuccess && genres && genres.length > 0) {
     return (
@@ -30,7 +71,8 @@ export function Component() {
       </Stack>
     );
   }
-  return null;
+
+  return <MainLoadingScreen />;
 }
 
 Component.displayName = "HomePage";
